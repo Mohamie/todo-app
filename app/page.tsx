@@ -1,16 +1,22 @@
-import { createTodoAction } from "@/actions/todoActions"
+"use server"
+
+import { getAllTodos } from "@/lib/todo"
+import { Todos } from "./components/Todos";
 
 export default async function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        
-      </div>
+  const { todos } = await getAllTodos();
 
+  return (
+    <main className="min-h-screen bg-primary-background-color">
+      <div className="max-w-xs my-0 mx-auto">
+        <header>
+          <h1 className="font-bold tracking-widest">TODO</h1>
+          <img src="" alt="" className="icon" />
+        </header>
+        <section className="flex flex-col gap-5">
+         {todos && <Todos todos={todos}/>}
+        </section>
+      </div>
     </main>
   )
 }

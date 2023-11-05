@@ -1,12 +1,12 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "./prisma";
 
 export async function getAllTodos(){
     try {
-       const todos = await prisma.todo.findMany();
+       const todos = await prisma.todo.findMany({orderBy: {
+        id: "asc"
+       }});
        
-       return todos;
+       return { todos };
     } catch (error) {
         return { error }
     }
