@@ -1,14 +1,12 @@
 type TodoFilters = {
-    setAll: () => void,
-    setActive: () => void,
-    setComplete: () => void,
+    setFilter: (type: TodoActionType) => void,
 }
 
 export function TodoFilters(props: TodoFilters){
-    const {setAll, setActive, setComplete} = props;
+    const {setFilter} = props;
     return <p className="flex justify-evenly p-3 bg-secondary-text-color rounded shadow-md">
-        <span onClick={setAll} className="cursor-pointer font-bold">All</span>
-        <span onClick={setActive} className="cursor-pointer font-bold">Active</span>
-        <span onClick={setComplete} className="cursor-pointer font-bold">Completed</span>
+        <span onClick={() => setFilter("ALL")} className="cursor-pointer font-bold">All</span>
+        <span onClick={() => setFilter("ACTIVE")} className="cursor-pointer font-bold">Active</span>
+        <span onClick={() => setFilter("COMPLETED")} className="cursor-pointer font-bold">Completed</span>
     </p>
 }

@@ -27,13 +27,14 @@ const checkboxStyles = `
 const checkboxChecked = `
 `
 
-export default function TodoItem(props: {todo: Todo}){
+export default function TodoItem(props: {todo: Todo, updatedTodo: (todo: Todo) => void}){
     const {id, title, isComplete} = props.todo;
     const [isPending, setTransition] = useTransition();
     const [completed, setCompleted] = useState(isComplete);
 
     const onTodoComplete = () => {
         setTransition(() => updateTodoAction(id, !isComplete));
+        props.updatedTodo({id, title, isComplete: !isComplete})
         setCompleted(isComplete => !isComplete);
     }
     

@@ -4,7 +4,11 @@ type Todo = {
     isComplete: boolean;
 }
 
+type TodoActionType = "ACTIVE" | "COMPLETED" | "ALL" | "UPDATE" | "NEW";
+
+
 type TodoAction = {
-    type: "ACTIVE" | "COMPLETED" | "ALL";
-    value: Array<Todo>
+    type: TodoActionType;
+    value: Array<Todo>;
+    todoToUpdate?: Todo;
 }

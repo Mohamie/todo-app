@@ -36,3 +36,11 @@ export async function deleteTodo(id: number){
     }
 }
 
+export async function deleteCompletedTodos(){
+    try {
+       await prisma.todo.deleteMany({where: {isComplete: true}})
+    } catch (error) {
+        return { error }
+    }
+}
+
