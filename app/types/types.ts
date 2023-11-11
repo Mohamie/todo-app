@@ -2,6 +2,7 @@ type Todo = {
     id: number;
     title: string;
     isComplete: boolean;
+    position: number
 }
 
 type TodoActionType = "ACTIVE" | "COMPLETED" | "ALL" | "UPDATE" | "NEW";

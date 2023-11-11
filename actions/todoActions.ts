@@ -11,8 +11,8 @@ export async function createTodoAction(title: string){
     revalidatePath("/")
 }
 
-export async function updateTodoAction(id: number, isComplete: boolean){
-    await updateTodo(id, isComplete);
+export async function updateTodoAction(todo: Todo){
+    await updateTodo(todo);
 }
 
 export async function deleteTodoAction(id: number){

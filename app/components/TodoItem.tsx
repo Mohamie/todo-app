@@ -2,12 +2,8 @@
 
 import { deleteTodoAction, updateTodoAction } from "@/actions/todoActions"
 import { useState, useTransition } from "react"
+import { Draggable } from 'react-beautiful-dnd';
 
-type Todo = {
-    id: number,
-    title: string,
-    isComplete: boolean
-}
 
 const itemStyles = `
     relative
@@ -27,27 +23,37 @@ const checkboxStyles = `
 const checkboxChecked = `
 `
 
-export default function TodoItem(props: {todo: Todo, updatedTodo: (todo: Todo) => void}){
-    const {id, title, isComplete} = props.todo;
+export default function TodoItem(props: { todo: Todo, index: number, updatedTodo: (todo: Todo) => void }) {
+    const { id, title, isComplete } = props.todo;
     const [isPending, setTransition] = useTransition();
     const [completed, setCompleted] = useState(isComplete);
 
     const onTodoComplete = () => {
-        setTransition(() => updateTodoAction(id, !isComplete));
-        props.updatedTodo({id, title, isComplete: !isComplete})
+        setTransition(() => updateTodoAction({...props.todo, isComplete: !isComplete}));
+        props.updatedTodo({ ...props.todo, isComplete: !isComplete })
         setCompleted(isComplete => !isComplete);
     }
-    
+
     const onTodoDelete = () => {
         setTransition(() => deleteTodoAction(id));
     }
 
-    return <li key={id} className={itemStyles}>
-        <span className={`${checkboxStyles}`}></span>
-        <span className={`cursor-pointer ${completed ? 'line-through' : ''}`} 
-            onClick={onTodoComplete}>
-            {title}
-        </span>
-        <span className="ml-auto cursor-pointer" onClick={onTodoDelete}>❌</span>
-    </li>
+    return<>
+        <Draggable key={id} draggableId={id.toString()} index={props.index}>
+            {(provided) => (
+                <li key={id} className={itemStyles} 
+                    ref={provided.innerRef} 
+                    {...provided.draggableProps} 
+                    {...provided.dragHandleProps}
+                >
+                    <span className={`${checkboxStyles}`}></span>
+                    <span className={`cursor-pointer ${completed ? 'line-through' : ''}`}
+                        onClick={onTodoComplete}>
+                        {title}
+                    </span>
+                    <span className="ml-auto cursor-pointer" onClick={onTodoDelete}>❌</span>
+                </li>
+            )}
+        </Draggable>
+    </>
 }

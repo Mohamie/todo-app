@@ -20,9 +20,9 @@ export async function createTodo(title: string){
     }
 }
 
-export async function updateTodo(id: number, isComplete: boolean){
+export async function updateTodo(todo: Todo){
     try {
-       await prisma.todo.update({where: {id}, data: {isComplete}});
+       await prisma.todo.update({where: {id: todo.id}, data: {...todo}});
     } catch (error) {
         return { error }
     }
